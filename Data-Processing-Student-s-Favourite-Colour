@@ -1,0 +1,63 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+/* Read in from the file and store the user first and last name in their respective arrays and save their favourite colour in its respective array with this information
+ output users who have a certain favourite colour ex: favcolour("black") now it will show all the users name whos favourite colour is black etc.
+ output the likelihood of encountering that specific colour in the list in percentage 100% being its everyones fav colour
+*/
+
+void StoringInformation(int i, ifstream& readIn, string FirstName[], string LastName[], string FavColour[]);
+void FilteringInformation(int& counter, int i, string FavColour[], string FirstName[], string LastName[], string inputColour);
+float PercentageCalculator(int& counter);
+
+int main()
+{
+	ifstream readIn;
+	readIn.open("user_data.txt");
+	string FirstName[1790] = { "" };
+	string LastName[1790] = { "" };
+	string FavColour[1790] = { "" };
+	string inputColour = "hi";
+	int i = 0;
+	int counter = 0;
+
+	cout << "Enter one of the following Colours: Blue, Green, Red, Yellow, Purple, Orange, Pink, Gray, Black, White" << endl;
+	cin >> inputColour;
+
+	StoringInformation(i, readIn, FirstName, LastName, FavColour);
+	FilteringInformation(counter, i, FavColour, FirstName, LastName, inputColour);
+
+	cout << "The likelihood of encountering the colour is:" << ' ' << PercentageCalculator(counter) << ' ' << "%" << endl;
+
+	readIn.close();
+
+	return 0;
+}
+
+
+void StoringInformation(int i, ifstream& readIn, string FirstName[], string LastName[], string FavColour[]) {
+	while (!readIn.eof())
+	{
+		readIn >> FirstName[i] >> LastName[i] >> FavColour[i];
+		i++;
+	}
+}
+
+float PercentageCalculator(int& counter)
+{
+	return ((counter / 1790.f) * 100.f);
+}
+
+void FilteringInformation(int& counter, int i, string FavColour[], string FirstName[], string LastName[], string inputColour)
+{
+	for (i = 0; i < 1791; i++)
+	{
+		if (FavColour[i] == inputColour)
+		{
+			cout << FirstName[i] << ' ' << LastName[i] << endl;
+			counter++;
+		}
+
+	}
+}
